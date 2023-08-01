@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "target": "es6",
+        "moduleResolution": "node",
+        "outDir": "dist",
+        "baseUrl": "src",
+        "paths": {
+            "@controllers": ["controllers/index"],
+            "@models": ["models/index"],
+            "@utils": ["utils/index"]
+        }
+    },
+    "ts-node": {
+        "require": ["tsconfig-paths/register"]
+    }
+}
