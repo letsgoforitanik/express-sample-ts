@@ -1,0 +1,24 @@
+<%- contentFor('style') %>
+<link rel="stylesheet" href="/css/cart.css">
+
+
+<%- contentFor('body') %>
+<main>
+    <% if (cartItems.length > 0) { %> 
+        <ul class="cart__item-list">
+            <% for (const cartItem of cartItems) { %>
+                <li class="cart__item">
+                    <h1><%= cartItem.product.id %></h1>
+                    <h2>Quantity: <%= cartItem.quantity %></h2>
+                    <a href="/cart/delete-item/<%= cartItem.product.id %>" class="btn">Delete</a>
+                </li>   
+            <% } %>
+        </ul> 
+        <hr>
+        <div class="centered">
+            <a href="/create-order" class="btn">Order Now!</a>
+        </div>
+    <% } else { %>
+        <h1>No Products in Cart!</h1>
+    <% } %>
+</main>

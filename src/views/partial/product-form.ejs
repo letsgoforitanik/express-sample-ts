@@ -1,0 +1,30 @@
+<% 
+    const routeName = editing ? 'edit' : 'add';
+    const btnLabel = editing ? 'Update' : 'Add';  
+%>
+
+<form action="/admin/<%= routeName %>-product" method="POST" class="product-form">
+    <div class="form-control">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" required value="<%= product?.title %>"/>
+    </div>
+    <div class="form-control">
+        <label for="imageUrl">Image URL</label>
+        <input type="text" name="imageUrl" id="imageUrl" required value="<%= product?.imageUrl %>"/>
+    </div>
+    <div class="form-control">
+        <label for="price">Price</label>
+        <input type="number" name="price" id="price" required value="<%= product?.price %>"/>
+    </div>
+    <div class="form-control">
+        <label for="description">Description</label>
+        <textarea name="description" rows="5" id="description" required><%= product?.description %></textarea>
+    </div>
+
+    <% if (editing) { %>
+        <input type="hidden" name="productId" id="productId" value="<%= product?.id %>">
+    <% } %>
+
+    <button class="btn" type="submit"><%= btnLabel %> Product</button>
+    <a href="/" class="btn">Go Back</a>
+</form>

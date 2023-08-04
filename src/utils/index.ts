@@ -1,3 +1,3 @@
-import getAbsPath from "./getAbsPath";
+import getAbsPath from "./getabspath";
 
 export { getAbsPath };

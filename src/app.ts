@@ -3,25 +3,47 @@ import express from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import ejsLayouts from "express-ejs-layouts";
+import mongoose from "mongoose";
 
-import { shopController, adminController } from "@controllers";
+import { productController, adminController, cartController } from "@controllers";
+import { errorController, authController, orderController } from "@controllers";
 import { getAbsPath } from "@utils";
 
-dotenv.config();
+function configurePipeline(app: express.Express) {
+    app.use(ejsLayouts);
+    app.use(express.static("public"));
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(authController.router);
+    app.use(productController.router);
+    app.use(cartController.router);
+    app.use(orderController.router);
+    app.use(adminController.router);
+    app.use(errorController.router);
+}
 
-const app = express();
+function configureSettings(app: express.Express) {
+    app.set("view engine", "ejs");
+    app.set("views", getAbsPath("views"));
+    app.set("layout", getAbsPath("views/layout/main"));
+}
 
-app.set("view engine", "ejs");
-app.set("views", getAbsPath("views"));
-app.set("layout", getAbsPath("views/layout/main"));
+async function main() {
+    dotenv.config();
 
-app.use(ejsLayouts);
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(shopController.router);
-app.use(adminController.router);
+    const app = express();
 
-const server = http.createServer(app);
-const port = process.env.PORT;
+    configureSettings(app);
+    configurePipeline(app);
 
-server.listen(port, () => console.log(`Server is up and running on port ${port}`));
+    const port = process.env.PORT;
+    const dbConnectionString = process.env.DB_CONNECTION_STRING;
+
+    await mongoose.connect(dbConnectionString);
+
+    console.log(`Database connection successfully made`);
+
+    const server = http.createServer(app);
+    server.listen(port, () => console.log(`Server is up and running on port ${port}`));
+}
+
+main();

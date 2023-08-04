@@ -9,7 +9,8 @@
         "paths": {
             "@controllers": ["controllers/index"],
             "@models": ["models/index"],
-            "@utils": ["utils/index"]
+            "@utils": ["utils/index"],
+            "@repositories": ["repositories/index"]
         }
     },
     "ts-node": {
